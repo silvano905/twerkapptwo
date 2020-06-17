@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% block body_block %}
+        <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+
+<div class="alert alert-success" role="alert">
+        <p>Gracias por enviar tu video</p>
+</div>
+
+<div class="alert alert-primary" role="alert">
+      <p>Pronto se calificará tu video y podras mirar tu puntuación. Favor de esperar unos 30 minutos para poder ver la puntuación.</p>
+</div>
+
+<div class="alert alert-primary" role="alert">
+      <p>Tendrá una puntuación de zero si todavia no se ha calificado. Máximo de 23 puntos en total.</p>
+</div>
+
+
+      <a class="navbar-brand" href="{% url 'tips:list'%}">Regresar a menú principal</a>
+
+  </div>
+</div>
+
+
+
+
+{% endblock %}

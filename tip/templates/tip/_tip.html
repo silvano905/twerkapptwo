@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<div class="jumbotron main_wrapper_jumbotron">
+
+<div class="container">
+
+    <div class="card text-white bg-dark mb-3">
+    {% if post.post_pic %}
+
+        <video class="embed-responsive embed-responsive-16by9" width="320" height="240" controls>
+          <source src="{{ post.post_pic.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+    {% endif %}
+        <div class="card-body">
+
+            <p class="text-center" style="color: #afd9ee">{{ post.title }}</p>
+            <p class="card-text">{{ post.info }}</p>
+            <p class="card-title"><a href="{% url 'tips:for_user' username=post.author.username %}">@{{ post.author.username }}</a></p>
+            <p class="card-text">Publicado en: {{post.created_date|date:"m /d/ Y"}}</p>
+            <div class="card-text">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    {% if request.user.profiles %}
+{#                        <a href="{% url 'comments:add_comment_to_post' pk=post.pk %}" class="btn btn-light">Agregar Comentario</a>#}
+                    {% else %}
+{#                        <a href="{% url 'tips:createprofilebeforeview'%}" class="btn btn-light">Agregar Comentario</a>#}
+                    {% endif %}
+
+                </div>
+            </div>
+            {% if user.is_authenticated and post.author == user %}
+                <br>
+                <div>
+                    {% if user.is_authenticated and post.author == user %}
+                        <h5 id="cr">Creatividad: {{ post.creativity }}/5</h5>
+                        <h5 id="sn">Sensualidad/sexi: {{ post.sexy }}/7</h5>
+                        <h5 id="cl">Calidad del video/claridad: {{ post.quality }}/5</h5>
+                        <h5 id="at">Atuendo/outfit: {{ post.outfit }}/6</h5>
+                        <h5>Total: <span id="tt"></span>/23</h5>
+
+                        <a href="{% url 'tips:tip_remove' pk=post.pk%}" class="btn btn-outline-danger">Remover</a>
+{#                        <a href="{% url 'tips:tip_edit' pk=post.pk%}" class="btn btn-outline-info">Editar</a>#}
+                    {% endif %}
+                    </div>
+            {% endif %}
+        </div>
+
+
+
+    </div>
+</div>
+
+
+</div>
+<script>
+    let r = {{ post.creativity }}+ {{ post.sexy }}+{{ post.quality }}+ {{ post.outfit }};
+    let g = document.getElementById('tt');
+    g.textContent = r;
+</script>

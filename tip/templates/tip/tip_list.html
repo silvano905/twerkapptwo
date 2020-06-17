@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% extends "main.html" %}
+
+{% block body_block %}
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+      <h1 class="display-4"> Concurso Internacional Twerk 2020</h1>
+    <h1>1 lugar 20,000 Pesos</h1>
+    <h1>2 lugar 12,000 Pesos</h1>
+    <h1>3 lugar 10,000 Pesos</h1>
+    <p class="lead">Ganadoras se elegirán el 25 de Junio 2020</p>
+      <p class="lead">Felicidades a Yadira P, Oriana O y a Sofia C que fueron las ganadoras del concurso del 2019</p>
+  </div>
+</div>
+
+<div class="jumbotron main_wrapper_jumbotron">
+
+{#    <div class="d-flex justify-content-center">#}
+{##}
+{#        <form method="GET" action="{% url 'tips:list'%}" class="form-inline">#}
+{#            {% csrf_token %}#}
+{#            <div class="input-group input-group-lg">#}
+{#                <div class="input-group-prepend">#}
+{#                    <span class="input-group-text" id="inputGroup-sizing-lg">Buscar Tips</span>#}
+{#                </div>#}
+{#                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="q">#}
+{#                <button type="submit" class="btn btn-dark">GO</button>#}
+{#            </div>#}
+{#        </form>#}
+{#    </div>#}
+
+
+{#    <div class="d-flex flex-row bd-highlight mb-3">#}
+{#        <div class="p-2 bd-highlight">#}
+{#            <form method="get" href="{% url 'tips:list'%}">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit" name="populares" value="popular" class="btn btn-light btn-sm">Top Paradas</button>#}
+{#            </form>#}
+{#        </div>#}
+{#        <div class="p-2 bd-highlight">#}
+{#            <form method="get" href="{% url 'tips:list'%}">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit" name="comentadas" value="comment" class="btn btn-light btn-sm">Top Comentadas</button>#}
+{#            </form>#}
+{#        </div>#}
+{#        <div class="p-2 bd-highlight">#}
+{#            <form method="get" href="{% url 'tips:list'%}">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit" name="recientes" value="recientes" class="btn btn-light btn-sm">Recientes</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+
+
+    <div class="row">
+        {% for post in post_list %}
+
+            <div class="col-md-4">
+                <div>
+                    <div class="card text-white bg-dark mb-3">
+                        {% if post.post_pic %}
+                            <div class="card-body">
+                                <a href="{% url 'tips:tip_detail' pk=post.id %}">
+<video class="embed-responsive embed-responsive-16by9" width="320" height="240" controls>
+  <source src="{{ post.post_pic.url }}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+                                </a>
+                                <p class="card-text"><a href="{% url 'tips:for_user' username=post.author.username %}">@{{ post.author.username }}</a></p>
+                            </div>
+
+
+                        {% else %}
+                            <div class="card-body">
+                                <p class="text-center"><a href="{% url 'tips:tip_detail' pk=post.id %}">{{ post.title }}</a></p>
+                                <p class="card-text">{{ post.post_info_summary }}</p>
+                                <p class="card-text"><a href="{% url 'tips:for_user' username=post.author.username %}">@{{ post.author.username }}</a></p>
+
+                            </div>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-center">
+
+        <div class="pagination">
+            {% if post_list.has_other_pages %}
+                {% if post_list.has_previous %}
+                  <a href="?page={{ post_list.previous_page_number }}" class="pagination_numbers">&laquo;</a>
+                {% else %}
+                  <div class="disabled pagination_numbers"><span>&laquo;</span></div>
+                {% endif %}
+                {% for i in post_list.paginator.page_range %}
+                  {% if post_list.number == i %}
+                    <div class="pagination_numbers"><span> {{ i }} </span></div>
+                  {% else %}
+                    <a href="?page={{ i }}" class="pagination_numbers">{{ i }}</a>
+                  {% endif %}
+                {% endfor %}
+                {% if post_list.has_next %}
+                  <a href="?page={{ post_list.next_page_number }}" class="pagination_numbers">&raquo;</a>
+                {% else %}
+                  <div class="disabled pagination_numbers"><span>&raquo;</span></div>
+                {% endif %}
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+

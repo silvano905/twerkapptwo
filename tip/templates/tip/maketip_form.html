@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% load bootstrap4 %}
+{% block body_block %}
+
+{% block serach_block %}
+{% endblock %}
+
+
+
+
+    <div class="container">
+            <div class="d-flex justify-content-center">
+
+                <form action="{% url 'tips:create_tip'%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+
+                    <a class="nav-link" href="{% url 'tips:reglas'%}" >Presiona aqui para Reglas/Requisitos</a>
+
+                        <p style="color: white">Nombre: {{ form.title }}</p>
+
+
+                            <label style="color: white">Imagen</label>
+                        <p style="color: green">Presiona el botton "Choose file" de abajo para enviar video</p>
+        {#                    <input type="file" accept="image/*" onchange="loadFile(event)" value="{{ form.post_pic }}">#}
+                            <p onchange="loadFile(event)">{{ form.post_pic }}</p>
+                    </div>
+                    <div class="form-row">
+
+                    <video id="output" width="320" height="240" controls>
+                      <source type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+
+
+                </form>
+            </div>
+
+
+        <div class="alert alert-danger" role="alert" style="margin: 10px">
+    <h4>Los videos submitidos se borraran automaticamente al final del concurso.</h4>
+</div>
+
+    </div>
+
+
+
+<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+  };
+</script>
+
+{% endblock %}
